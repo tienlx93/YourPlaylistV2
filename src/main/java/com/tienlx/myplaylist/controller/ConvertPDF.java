@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +37,7 @@ import org.xml.sax.SAXException;
  *
  * @author tienl_000
  */
+@WebServlet(name = "ConvertPDF", urlPatterns = {"/ConvertPDF"})
 public class ConvertPDF extends HttpServlet {
 
     /**

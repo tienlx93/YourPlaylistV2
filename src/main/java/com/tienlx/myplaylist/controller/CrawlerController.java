@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tienl_000
  */
+@WebServlet(name = "CrawlerController", urlPatterns = {"/CrawlerController"})
 public class CrawlerController extends HttpServlet {
 
     /**
@@ -36,7 +38,7 @@ public class CrawlerController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getServletContext().getRealPath("/");
         String url = "http://m.mp3.zing.vn";
-        String topSong = "http://m.mp3.zing.vn/bang-xep-hang/index.html";
+        String topSong = "http://m.mp3.zing.vn/top100/Nhac-Tre/IWZ9Z088.html";
 
 
         WebCrawler crawler = new WebCrawler();
@@ -44,7 +46,7 @@ public class CrawlerController extends HttpServlet {
         crawler.setBaseUrl(url);
 
         //crawler.testSaveArtist();
-        crawler.processPage(url); //TESTED OK
+        crawler.processPage(topSong); //TESTED OK
         //crawler.processArtistList();
     }
 

@@ -1,55 +1,50 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tienlx.myplaylist.crawler;
 
+import com.google.gson.Gson;
 import com.tienlx.myplaylist.dao.ArtistDAO;
 import com.tienlx.myplaylist.dao.SongDAO;
 import com.tienlx.myplaylist.entity.Artist;
 import com.tienlx.myplaylist.entity.Song;
-import java.io.Console;
-import java.io.File;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
+import com.tienlx.myplaylist.util.AccentRemover;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import com.tienlx.myplaylist.util.AccentRemover;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
- * @author tienl_000
+ * Created by ASUS on 10/08/2016.
  */
-public class WebCrawler {
-
-    public static DB db = new DB();
+public class CrawlerV2 {
     private String baseUrl = "http://m.mp3.zing.vn";
     private String basePath;
+    public static final String imageSrc = "http://image.mp3.zdn.vn/";
+    public static final String apiKey = "fafd463e2131914934b73310aa34a23f";
+    public static final String baseAPI = "http://api.mp3.zing.vn/api/mobile/song/getsonginfo";
 
     public static void main(String[] args) {
-        WebCrawler crawler = new WebCrawler();
+        CrawlerV2 crawler = new CrawlerV2();
         try {
-            crawler.processPage("http://m.mp3.zing.vn");
-            crawler.processSongList("http://m.mp3.zing.vn/top-100/bai-hat-Nhac-Tre/IWZ9Z088.html");
+            String URL = "ZW67FWWF";
+            crawler.processSong(URL);
+            //crawler.processPage("http://mp3.zing.vn/bang-xep-hang/index.html");
+            /*crawler.processSongList("http://m.mp3.zing.vn/top-100/bai-hat-Nhac-Tre/IWZ9Z088.html");
             crawler.processSong("http://m.mp3.zing.vn/bai-hat/Giu-Em-Di-Thuy-Chi/ZW6EZDII.html");
-            crawler.processArtist("Sơn Tùng M-TP");
+            crawler.processArtist("S?n T�ng M-TP");*/
             crawler.testSaveArtist();
         } catch (IOException ex) {
-            Logger.getLogger(WebCrawler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrawlerV2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(WebCrawler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrawlerV2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -58,17 +53,17 @@ public class WebCrawler {
         Document doc = Jsoup.connect(URL).get();
 
         // List song by category
-        Elements type = doc.select(".link-obj");
+        Elements type = doc.select("._trackLink");
         String subUrl;
         String name;
         for (int i = 0; i < type.size(); i++) {
             Element element = type.get(i);
             subUrl = element.attr("href");
             name = element.text();
-            if (subUrl.contains("top")) {
+            if (subUrl.contains("bai-hat")) {
                 System.out.println(subUrl + "-" + name);
                 try {
-                    processSongList(URL + subUrl);
+                    processSong(subUrl);
                 } catch (SQLException ex) {
                     Logger.getLogger(WebCrawler.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -125,7 +120,7 @@ public class WebCrawler {
 
                     views = Long.parseLong(map.get("Views").toString());
                     songEntity.setPlayCount(views);
-                    
+
                     dao.save(songEntity);
                     songJaxb = new com.tienlx.myplaylist.jaxb.song.Song();
 
@@ -153,30 +148,37 @@ public class WebCrawler {
 
         HashMap<String, String> map = new HashMap<String, String>();
 
-        Document doc = Jsoup.connect(URL).get();
+        String url;
+        url = baseAPI + "?keycode=" + apiKey + "&requestdata={\"id\":\"" + URL + "\"}";
+        String response = null;
+        String albumArt;
+        String lyrics;
+        String data;
+        String views;
+        String title;
+        try {
+            response = HTTPRequest.getHTML(url);
+            if (response == null) {
+                return null;
+            }
+            Gson gson = new Gson();
+            HashMap parsed = gson.fromJson(response, Map.class);
+            albumArt = (String) parsed.get("thumbnail");
+            lyrics = (String) parsed.get("lyrics_file");
+            views = (String) parsed.get("likes");
+            HashMap sources = (HashMap) parsed.get("source");
+            data = (String) sources.get("128");
 
-        Elements artistImg = doc.select(".artist-img");
-        Elements lyricsElm = doc.select("#conLyrics");
-        Elements audio = doc.select("#mp3Player");
-
-        String strViews;
-        long views;
-        strViews = doc.select(".icon-luot-nghe").get(0).text();
-        views = Long.parseLong(strViews) / 100000; // reduce views
-
-        String albumArt = artistImg.attr("src").replace("94_94", "165_165");
-        String source = audio.attr("xml");
-        Document dataJson = Jsoup.connect(source).get();
-        String data = dataJson.text();
-        String lyrics = "";
-        if (lyricsElm.text().length() > 0) {
-            lyrics = lyricsElm.get(0).html();
+            map.put("Title", title);
+            map.put("AlbumArt", albumArt);
+            map.put("Lyrics", lyrics);
+            map.put("Source", data);
+            map.put("Views", views + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
 
-        map.put("AlbumArt", albumArt);
-        map.put("Lyrics", lyrics);
-        map.put("Source", data);
-        map.put("Views", views + "");
 
         return map;
     }
@@ -238,7 +240,6 @@ public class WebCrawler {
         }
 
 
-
     }
 
     public void marshallXML(String filename, com.tienlx.myplaylist.jaxb.song.Song song) {
@@ -265,10 +266,10 @@ public class WebCrawler {
     }
 
     public void testSaveArtist() throws SQLException, IOException {
-        String category = "Nhạc trẻ";
+        String category = "Nh?c tr?";
         String url = "blah";
-        String title = "Nhạc của tui";
-        String artist = "Lê Tiến";
+        String title = "Nh?c c?a tui";
+        String artist = "L� Ti?n";
         String id = "WB024525";
 
 
