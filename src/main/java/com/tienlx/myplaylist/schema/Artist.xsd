@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema version="1.0"
+           xmlns="http://yourplaylist.tk/Schema"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://yourplaylist.tk/Schema"
+           elementFormDefault="qualified">
+
+    <xs:element name="Artist" type="Artist"/>
+    
+    <xs:complexType name="Artist">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Info" type="xs:string"/>
+            <xs:element name="Bio" type="xs:string"/>
+            <xs:element name="Image" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

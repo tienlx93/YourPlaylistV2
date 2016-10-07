@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="YourPlaylistPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>com.tienlx.myplaylist.entity.Song</class>
+        <class>com.tienlx.myplaylist.entity.Playlist</class>
+        <class>com.tienlx.myplaylist.entity.Artist</class>
+        <class>com.tienlx.myplaylist.entity.Account</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.connection.datasource" value="java:comp/env/jdbc/MySQLDS"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/yourplaylist?zeroDateTimeBehavior=convertToNull"/>
+            <property name="javax.persistence.jdbc.password" value="root"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+        </properties>
+    </persistence-unit>
+</persistence>

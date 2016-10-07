@@ -70,4 +70,4 @@ app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('xmlHttpInterceptor');
 });
 
-var BACK_END_URL = "http://localhost:8080/YourPlaylist/";
+var BACK_END_URL = "/";
