@@ -12,6 +12,7 @@ import com.tienlx.myplaylist.entity.Song;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -87,6 +88,8 @@ public class CrawlerController extends HttpServlet {
             }
             out.print("done");
             out.flush();
+        } catch (SocketTimeoutException ex) {
+            Logger.getLogger(CrawlerV2.class.getName()).log(Level.WARNING, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(CrawlerV2.class.getName()).log(Level.SEVERE, null, ex);
         }
