@@ -40,8 +40,7 @@ public class CrawlerController extends HttpServlet {
         String url = request.getParameter("url");
         String full = request.getParameter("full");
         CrawlerV2 crawler = new CrawlerV2();
-        ServletContext context = request.getSession().getServletContext();
-        String absoluteDiskPath = context.getRealPath("/");
+        String absoluteDiskPath = this.getClass().getResource("/").getPath();
 //        String absoluteDiskPath = getServletContext().getRealPath("/") + File.separator;
         Logger.getLogger(CrawlerV2.class.getName()).log(Level.INFO, "absoluteDiskPath: " + absoluteDiskPath);
         System.out.printf("absoluteDiskPath: " + absoluteDiskPath);
