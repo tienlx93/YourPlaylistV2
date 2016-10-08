@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.Pack200;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,7 +91,13 @@ public class CrawlerV2 {
     }
 
     public HashMap<String, String> processSong(String URL) throws UnsupportedEncodingException {
-        String id = URL.substring(URL.lastIndexOf("/") + 1, URL.lastIndexOf(".html"));
+        boolean isUrl = URL.lastIndexOf("/") > 0;
+        String id;
+        if (isUrl) {
+            id = URL.substring(URL.lastIndexOf("/") + 1, URL.lastIndexOf(".html"));
+        } else {
+            id = URL;
+        }
         HashMap<String, String> map = new HashMap<String, String>();
 
         Song found = songDao.get(id);
@@ -213,6 +220,7 @@ public class CrawlerV2 {
         songDao = new SongDAO();
         Song found = songDao.get(id);
         if (found == null) {
+            System.out.println("Saving song: " + title);
             songEntity = new Song(id, title, AccentRemover.removeAccent(title), artist, AccentRemover.removeAccent(artist), viewLong, category);
             songDao.save(songEntity);
         } else {
@@ -244,7 +252,11 @@ public class CrawlerV2 {
 
     private String getLyric(String URL) throws UnsupportedEncodingException {
         try {
-            URL = URL.replace("mp3.zing", "m.mp3.zing");
+            if (URL.indexOf("mp3.zing") > 0) {
+                URL = URL.replace("mp3.zing", "m.mp3.zing");
+            } else {
+                URL = "http://mp3.zing.vn/bai-hat/test/" + URL + ".html";
+            }
             Document doc = Jsoup.connect(URL).get();
             Elements lyricContainer = doc.select(".lyric-song");
             if (lyricContainer == null || lyricContainer.size() == 0) {
@@ -301,12 +313,48 @@ public class CrawlerV2 {
                 if (url != null && url.lastIndexOf("mp3.zing.vn") >= 0
                         && url.lastIndexOf("/bai-hat/") < 0
                         && url.lastIndexOf("/the-loai") < 0) {
-                    processPage(url);
+                    if (url.lastIndexOf("/album") > 0) {
+                        processAlbum(url);
+                    } else {
+                        processPage(url);
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void processAlbum(String url) {
+        Document doc = null;
+        String URL = url.replace("mp3.zing.vn", "m.mp3.zing.vn");
+        try {
+            Logger.getLogger(WebCrawler.class.getName()).log(Level.INFO, "URL: " + URL);
+            doc = Jsoup.connect(URL).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // List song by category
+        Elements type = doc.select(".obj-inside");
+        String subUrl;
+        String name;
+        for (int i = 0; i < type.size(); i++) {
+            Element element = type.get(i);
+            subUrl = element.attr("data-id");
+            name = element.text();
+            if (!subUrl.isEmpty()) {
+                try {
+                    HashMap<String, String> song = processSong(subUrl);
+                    if (song != null && song.get("Title") != null && song.get("Title").length() > 0) {
+                        saveArtist(song);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(WebCrawler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 }
