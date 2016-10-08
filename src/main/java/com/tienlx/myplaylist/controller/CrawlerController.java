@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +40,11 @@ public class CrawlerController extends HttpServlet {
         String url = request.getParameter("url");
         String full = request.getParameter("full");
         CrawlerV2 crawler = new CrawlerV2();
-        String absoluteDiskPath = getServletContext().getRealPath("/") + File.separator;
+        ServletContext context = request.getSession().getServletContext();
+        String absoluteDiskPath = context.getRealPath("/");
+//        String absoluteDiskPath = getServletContext().getRealPath("/") + File.separator;
+        Logger.getLogger(CrawlerV2.class.getName()).log(Level.INFO, "absoluteDiskPath: " + absoluteDiskPath);
+        System.out.printf("absoluteDiskPath: " + absoluteDiskPath);
         crawler.setBasePath(absoluteDiskPath);
         String base = "http://mp3.zing.vn";
         try {

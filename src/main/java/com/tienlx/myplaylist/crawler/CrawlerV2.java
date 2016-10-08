@@ -118,7 +118,13 @@ public class CrawlerV2 {
             LinkedTreeMap sources = (LinkedTreeMap) parsed.get("source");
             data = (String) sources.get("128");
             artist = (String) parsed.get("artist");
-            artistID = (String) parsed.get("artist_id");
+            try {
+                Double a = (Double) parsed.get("artist_id");
+                artistID = df.format(a);
+            } catch (Exception e) {
+                artistID = (String) parsed.get("artist_id");
+                e.printStackTrace();
+            }
 
             map.put("Title", title);
             map.put("AlbumArt", albumArt);
