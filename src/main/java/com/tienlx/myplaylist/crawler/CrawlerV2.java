@@ -298,7 +298,9 @@ public class CrawlerV2 {
                 hs.add(url);
             }
             for (String url : hs) {
-                if (url != null && url.lastIndexOf(URL) >= 0 && url.lastIndexOf("/bai-hat/") < 0) {
+                if (url != null && url.lastIndexOf("mp3.zing.vn") >= 0
+                        && url.lastIndexOf("/bai-hat/") < 0
+                        && url.lastIndexOf("/the-loai") < 0) {
                     processPage(url);
                 }
             }
