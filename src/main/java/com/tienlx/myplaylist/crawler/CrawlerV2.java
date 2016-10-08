@@ -55,9 +55,15 @@ public class CrawlerV2 {
         }*/
     }
 
-    public void processPage(String URL) throws IOException {
+    public void processPage(String URL) {
 
-        Document doc = Jsoup.connect(URL).get();
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(URL).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
 
         // List song by category
         Elements type = doc.select("._trackLink");
