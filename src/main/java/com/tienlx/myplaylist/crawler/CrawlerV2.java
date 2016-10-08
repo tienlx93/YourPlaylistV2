@@ -123,7 +123,6 @@ public class CrawlerV2 {
                 artistID = df.format(a);
             } catch (Exception e) {
                 artistID = (String) parsed.get("artist_id");
-                e.printStackTrace();
             }
 
             map.put("Title", title);
@@ -207,7 +206,7 @@ public class CrawlerV2 {
         songDao = new SongDAO();
         Song found = songDao.get(id);
         if (found == null) {
-            songEntity = new Song(id, title, title, artist, artist, viewLong, category);
+            songEntity = new Song(id, title, AccentRemover.removeAccent(title), artist, AccentRemover.removeAccent(artist), viewLong, category);
             songDao.save(songEntity);
         } else {
             return;
@@ -227,7 +226,7 @@ public class CrawlerV2 {
 
         marshallXML(getBasePath() + "song" + File.separator + id + ".xml", songJaxb);
         if (artistID.contains(",")) {
-            String single = artistID.substring(0, artist.indexOf(",") - 1);
+            String single = artistID.substring(0, artistID.indexOf(",") - 1);
             processArtist(single);
         } else {
             processArtist(artistID);
