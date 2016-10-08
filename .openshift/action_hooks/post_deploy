@@ -1,0 +1,3 @@
+cd  ${OPENSHIFT_JBOSSEWS_DIR}/webapps
+unzip ROOT.war -d ./ROOT
+rm ROOT.war
