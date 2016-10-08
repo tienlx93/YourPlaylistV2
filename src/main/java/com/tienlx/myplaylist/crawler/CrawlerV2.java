@@ -104,6 +104,7 @@ public class CrawlerV2 {
         if (found != null) {
             return null;
         }
+        System.out.println("Get from ID: " + id);
         String url;
         url = baseAPI + "?keycode=" + apiKey + "&requestdata=" + URLEncoder.encode("{\"id\":\"" + id + "\"}", "UTF-8");
         String response = null;
