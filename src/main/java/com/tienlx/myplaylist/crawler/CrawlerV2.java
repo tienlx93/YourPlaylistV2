@@ -59,6 +59,7 @@ public class CrawlerV2 {
 
         Document doc = null;
         try {
+            Logger.getLogger(WebCrawler.class.getName()).log(Level.INFO, "URL: " + URL);
             doc = Jsoup.connect(URL).get();
         } catch (IOException e) {
             e.printStackTrace();
