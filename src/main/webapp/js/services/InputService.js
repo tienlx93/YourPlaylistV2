@@ -17,17 +17,22 @@ services.factory("InputPopupService", [function () {
         popup.popupTitle = data;
     };
 
-    popup.showPopup = function () {
+    popup.showPopup = function (id) {
         popup.show = true;
         $('.popup').removeClass("hidden");
-        $('#input-popup').removeClass("hidden");
+        if (id) {
+            popup.id = id;
+        } else {
+            popup.id = '#input-popup';
+        }
+        $(popup.id).removeClass("hidden");
         $(".popup-text").focus();
     };
 
     popup.closePopup = function (cancel) {
         popup.show = false;
         $('.popup').addClass("hidden");
-        $('#input-popup').addClass("hidden");
+        $(popup.id).addClass("hidden");
         if (!cancel) {
             popup.success(popup.text);
         }

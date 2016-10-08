@@ -1,0 +1,18 @@
+<div class="popup-container">
+    <form novalidate name="inputForm" ng-submit="editText(inputForm)">
+        <div class="popup-title" id="input-title" >Your Playlist</div>
+        <div class="message center" id="input-message">
+            Mời nhập link Zing MP3 cần parse.<br>
+            Ví dụ: http://mp3.zing.vn/bai-hat/Nho-Em-Minh-Vuong-M4U/ZWZAAO8U.html
+        </div>
+        <div class="gradient" ng-class="{error:inputForm.$invalid}">
+            <input class="popup-text" name="popupText" id="input-text" type="text" ng-model="input.popupText"
+                    required=""/>
+        </div>
+
+        <div class="buttons">
+            <div class="popup-btn" id="btn-no" ng-click="closePopup(true)" >Cancel</div>
+            <div class="popup-btn" ng-class="{disable:inputForm.$invalid}" id="btn-yes" ng-click="editText(inputForm)">OK</div>
+        </div>
+    </form>
+</div>

@@ -4,7 +4,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.getTopSongs = function(callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'Search',
                 params: {
                     'query': '',
@@ -20,7 +20,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.getTopForty = function(callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'Search',
                 params: {
                     'query': '',
@@ -36,7 +36,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.getArtist = function(name, callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'Search',
                 params: {
                     'query': name,
@@ -51,7 +51,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.getTopPlaylist = function(callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'PlaylistController',
                 params: {
                     'action': 'getTopPlaylist',
@@ -66,7 +66,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.getMyPlaylist = function(callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'PlaylistController',
                 params: {
                     'action': 'getUserPlaylist'
@@ -80,7 +80,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.getPlaylist = function(id, callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'playlist/' + id + '.xml'
             }).success(function (data) {
                     callback(data.SongList.List.Song);
@@ -88,7 +88,7 @@ services.factory("Api", ['$http', 'AccountService',
         };
         services.removePlaylist = function(id, callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'PlaylistController',
                 params: {
                     'action': 'delete',
@@ -102,7 +102,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.playCount = function(id, callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'CounterController',
                 params: {
                     'action': 'Song',
@@ -115,7 +115,7 @@ services.factory("Api", ['$http', 'AccountService',
 
         services.playlistCount = function(id, callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'CounterController',
                 params: {
                     'action': 'Playlist',
@@ -124,6 +124,18 @@ services.factory("Api", ['$http', 'AccountService',
             }).success(function (data) {
                     callback(data);
                 });
+        };
+
+        services.requestParse = function(url, callback){
+            $http({
+                method: 'POST',
+                url: BACK_END_URL + 'CrawlerController',
+                params: {
+                    'song': url
+                }
+            }).success(function (data) {
+                callback(data);
+            });
         };
 
 

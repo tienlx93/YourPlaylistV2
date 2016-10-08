@@ -51,14 +51,14 @@ public class SongDAO extends BaseDAO<Song, String> {
             session.getTransaction().begin();
             String sql;
             if (limit == 0 || limit >= 100) {
-                sql = "SELECT Id, Title, Artist, PlayCount, Category, Name, Image "
-                        + "FROM song LEFT JOIN artist ON ArtistSearch = NameSearch "
-                        + "WHERE TitleSearch LIKE ? OR ArtistSearch LIKE ? "
+                sql = "SELECT a.Id, a.Title, a.Artist, a.PlayCount, a.Category, b.Name, b.Image "
+                        + "FROM song a LEFT JOIN artist b ON a.ArtistSearch LIKE CONCAT('%', b.NameSearch) "
+                        + "WHERE a.TitleSearch LIKE ? OR a.ArtistSearch LIKE ? "
                         + "ORDER BY RAND()";
             } else {
-                sql = "SELECT Id, Title, Artist, PlayCount, Category, Name, Image "
-                        + "FROM song LEFT JOIN artist ON ArtistSearch = NameSearch "
-                        + "WHERE TitleSearch LIKE ? OR ArtistSearch LIKE ? "
+                sql = "SELECT a.Id, a.Title, a.Artist, a.PlayCount, a.Category, b.Name, b.Image "
+                        + "FROM song a LEFT JOIN artist b ON a.ArtistSearch LIKE CONCAT('%', b.NameSearch) "
+                        + "WHERE a.TitleSearch LIKE ? OR a.ArtistSearch LIKE ? "
                         + "ORDER BY PlayCount DESC";
             }
             SQLQuery query = session.createSQLQuery(sql);

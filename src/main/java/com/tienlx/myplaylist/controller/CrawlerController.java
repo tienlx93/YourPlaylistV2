@@ -4,10 +4,14 @@
  */
 package com.tienlx.myplaylist.controller;
 
+import com.google.gson.Gson;
 import com.tienlx.myplaylist.crawler.CrawlerV2;
+import com.tienlx.myplaylist.dao.SongDAO;
+import com.tienlx.myplaylist.entity.Song;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -37,16 +41,41 @@ public class CrawlerController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         String url = request.getParameter("url");
         String full = request.getParameter("full");
+        String song = request.getParameter("song");
         CrawlerV2 crawler = new CrawlerV2();
 //        String absoluteDiskPath = this.getClass().getResource("/").getPath();
-        String absoluteDiskPath = getServletContext().getRealPath("/") + File.separator;
+        String absoluteDiskPath = getServletContext().getRealPath("/");
         Logger.getLogger(CrawlerV2.class.getName()).log(Level.INFO, "absoluteDiskPath: " + absoluteDiskPath);
-        System.out.printf("absoluteDiskPath: " + absoluteDiskPath);
         crawler.setBasePath(absoluteDiskPath);
         String base = "http://mp3.zing.vn";
         try {
+            if (song != null) {
+                HashMap<String, String> found = crawler.processSong(song);
+                if (found != null && found.get("Title") != null && found.get("Title").length() > 0) {
+                    try {
+                        Song crawled = crawler.saveArtist(found);
+                        Gson gson = new Gson();
+                        out.print(gson.toJson(crawled));
+                        out.flush();
+                        return;
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    SongDAO songDAO = new SongDAO();
+                    String id = song.substring(song.lastIndexOf("/") + 1, song.lastIndexOf(".html"));
+                    Song dbSong = songDAO.get(id);
+                    Gson gson = new Gson();
+                    out.print(gson.toJson(dbSong));
+                    out.flush();
+                    return;
+                }
+            }
             if (url == null) {
                 if (full == null) {
                     crawler.fullProcess(base);
@@ -56,6 +85,8 @@ public class CrawlerController extends HttpServlet {
             } else {
                 crawler.processPage(url);
             }
+            out.print("done");
+            out.flush();
         } catch (IOException ex) {
             Logger.getLogger(CrawlerV2.class.getName()).log(Level.SEVERE, null, ex);
         }

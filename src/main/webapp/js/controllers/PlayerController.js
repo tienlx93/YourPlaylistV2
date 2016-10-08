@@ -93,12 +93,12 @@ controllers.controller('PlayerController', ['$scope', '$rootScope', '$http', 'So
             $scope.currentSong = song;
             playState = true;
             var shortArtist = $scope.currentSong.Artist;
-            var multi = $scope.currentSong.Artist.indexOf("ft.");
+            var multi = $scope.currentSong.Artist.indexOf(",");
 
             if (multi > 0) {
-                shortArtist = shortArtist.substring(0, multi - 1);
+                shortArtist = shortArtist.substring(0, multi);
             }
-            Api.getArtist(bodau(shortArtist.trim()), function (artist) {
+            Api.getArtist(bodauHoa(shortArtist.trim()), function (artist) {
                 $scope.artist = artist;
             });
             Api.playCount(song.Id, function(){

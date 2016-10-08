@@ -1,8 +1,8 @@
 /**
  * Created by tienl_000 on 28/01/15.
  */
-controllers.controller('MenuController', ['$scope', '$location', '$route', 'SearchService', 'SongListService', 'AccountService', 'ErrorService',
-    function ($scope, $location, $route, SearchService, SongListService, AccountService, ErrorService) {
+controllers.controller('MenuController', ['$scope', '$location', '$route', 'SearchService', 'SongListService', 'AccountService', 'ErrorService', 'Api', 'InputPopupService',
+    function ($scope, $location, $route, SearchService, SongListService, AccountService, ErrorService, Api, InputPopupService) {
         $scope.searchText = "";
         $scope.result = [];
         $scope.show = false;
@@ -77,11 +77,28 @@ controllers.controller('MenuController', ['$scope', '$location', '$route', 'Sear
         }, function () {
             if ($scope.searchText) {
                 $scope.show = true;
-                SearchService.requestSearch($scope.searchText, function (data) {
+                SearchService.requestSearch(bodau($scope.searchText), function (data) {
                     $scope.songs = data;
                 });
             } else {
                 $scope.show = false;
             }
         });
+
+        $scope.request = function () {
+            InputPopupService.showPopup('#input-parse');
+            InputPopupService.success = function (request) {
+                if (request) {
+                    Api.requestParse(request, function (data) {
+                        $location.path("search/" + data.titleSearch);
+                    });
+                }
+            };
+            /*var request = window.prompt("Nhập link zing mp3 bạn muốn parse\n Ví dụ: http://mp3.zing.vn/bai-hat/Nho-Em-Minh-Vuong-M4U/ZWZAAO8U.html");
+            if (request) {
+                Api.requestParse(request, function (data) {
+                    $location.path("search/" + data.titleSearch);
+                });
+            }*/
+        }
     }]);

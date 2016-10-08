@@ -50,9 +50,15 @@
         <div class="menu-item right"><a href="" ng-click="logout()">Đăng xuất</a></div>
         <div class="logout"></div>
         <div class="menu-item right"><a href="" ng-click="goto('myplaylist')">Playlist của {{user.username}}</a></div>
+        <div class="menu-item right sm-padding"><a href="" ng-click="request()">
+            <img style="height: 20px;" src="img/add.png">
+        </a></div>
     </div>
     <div ng-show="!user.username">
         <div class="menu-item right"><a href="" ng-click="login()">Đăng nhập / Đăng kí</a></div>
+        <div class="menu-item right sm-padding"><a href="" ng-click="request()">
+            <img style="height: 20px;" src="img/add.png">
+        </a></div>
     </div>
     <div class="clear-float"></div>
 </div>

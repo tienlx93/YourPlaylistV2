@@ -63,10 +63,9 @@ public class BaseDAO<E, I extends Serializable> {
         Transaction trans = null;
         try {
             trans = session.beginTransaction();
-
+            trans.begin();
             session.save(item);
-            session.getTransaction().commit();
-
+            trans.commit();
             return true;
         } catch (Exception e) {
             if (trans != null && trans.isActive()) {

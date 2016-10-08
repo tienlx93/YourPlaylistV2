@@ -188,7 +188,7 @@ public class CrawlerV2 {
         }
     }
 
-    public void saveArtist(HashMap<String, String> testSong) throws SQLException, IOException {
+    public Song saveArtist(HashMap<String, String> testSong) throws SQLException, IOException {
         String category = testSong.get("category");
         String title = testSong.get("Title");
         String artist = testSong.get("artist");
@@ -209,7 +209,7 @@ public class CrawlerV2 {
             songEntity = new Song(id, title, AccentRemover.removeAccent(title), artist, AccentRemover.removeAccent(artist), viewLong, category);
             songDao.save(songEntity);
         } else {
-            return;
+            return null;
         }
         albumArt = imageSrc + testSong.get("AlbumArt");
         lyrics = getLyric(testSong.get("URL"));
@@ -226,12 +226,12 @@ public class CrawlerV2 {
 
         marshallXML(getBasePath() + "song" + File.separator + id + ".xml", songJaxb);
         if (artistID.contains(",")) {
-            String single = artistID.substring(0, artistID.indexOf(",") - 1);
+            String single = artistID.substring(0, artistID.indexOf(","));
             processArtist(single);
         } else {
             processArtist(artistID);
         }
-
+        return songEntity;
 
     }
 

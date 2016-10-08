@@ -20,7 +20,7 @@ services.factory("SearchService", ['$http', '$location',
                 method: 'GET',
                 url: BACK_END_URL + 'Search',
                 params: {
-                    'query': text,
+                    'query': bodau(text),
                     'method': ''
                 }
             })
