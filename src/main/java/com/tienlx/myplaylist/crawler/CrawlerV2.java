@@ -71,7 +71,7 @@ public class CrawlerV2 {
                 System.out.println(subUrl + "-" + name);
                 try {
                     HashMap<String, String> song = processSong(subUrl);
-                    if (song != null) {
+                    if (song != null && song.get("Title") != null) {
                         saveArtist(song);
                     }
                 } catch (Exception ex) {
