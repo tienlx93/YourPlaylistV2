@@ -14,26 +14,31 @@ import java.io.InputStreamReader;
  * Created by ASUS on 10/08/2016.
  */
 public class HTTPRequest {
-    public static String getHTML(String url) throws Exception {
+    public static String getHTML(String url) {
 
         //create a singular HttpClient object
         HttpClient client = HttpClientBuilder.create().build();
 
+        try {
+            HttpGet request = new HttpGet(url);
 
-        HttpGet request = new HttpGet(url);
+            HttpResponse response = client.execute(request);
+            System.out.println("Response Code : "
+                    + response.getStatusLine().getStatusCode());
+            BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(response.getEntity().getContent()));
 
-        HttpResponse response = client.execute(request);
-        System.out.println("Response Code : "
-                + response.getStatusLine().getStatusCode());
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(response.getEntity().getContent()));
-
-        StringBuffer result = new StringBuffer();
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
+            StringBuffer result = new StringBuffer();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            return result.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
 
-        return result.toString();
+
     }
 }
