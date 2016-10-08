@@ -123,6 +123,7 @@ public class CrawlerV2 {
             Gson gson = new Gson();
             HashMap parsed = gson.fromJson(response, HashMap.class);
             title = (String) parsed.get("title");
+            System.out.println("Parsed title: " + title);
             albumArt = (String) parsed.get("thumbnail");
             lyrics = (String) parsed.get("lyrics_file");
             category = (String) parsed.get("genre_name");
