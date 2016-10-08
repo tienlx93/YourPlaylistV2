@@ -33,6 +33,7 @@
 
     <Resource name="jdbc/MySQLDS"
               url="jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}"
+              connectionProperties="useUnicode=yes;characterEncoding=utf8;"
               driverClassName="com.mysql.jdbc.Driver"
               username="${OPENSHIFT_MYSQL_DB_USERNAME}"
               password="${OPENSHIFT_MYSQL_DB_PASSWORD}"
