@@ -121,10 +121,11 @@ public class CrawlerV2 {
             if (response == null) {
                 return null;
             }
-            System.out.println("response: " + response);
             Gson gson = new Gson();
             HashMap parsed = gson.fromJson(response, HashMap.class);
             title = (String) parsed.get("title");
+            LinkedTreeMap res = (LinkedTreeMap) parsed.get("response");
+            System.out.println("response msg: " + res.get("msg"));
             System.out.println("Parsed title: " + title);
             albumArt = (String) parsed.get("thumbnail");
             lyrics = (String) parsed.get("lyrics_file");
