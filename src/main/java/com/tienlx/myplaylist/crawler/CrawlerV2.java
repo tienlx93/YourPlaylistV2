@@ -121,6 +121,7 @@ public class CrawlerV2 {
             if (response == null) {
                 return null;
             }
+            System.out.println("response: " + response);
             Gson gson = new Gson();
             HashMap parsed = gson.fromJson(response, HashMap.class);
             title = (String) parsed.get("title");
