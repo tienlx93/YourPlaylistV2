@@ -13480,7 +13480,7 @@ function $AnchorScrollProvider() {
            .controller('ScrollController', ['$scope', '$location', '$anchorScroll',
              function ($scope, $location, $anchorScroll) {
                $scope.gotoBottom = function() {
-                 // set the location.hash to the id of
+                 id
                  // the element you wish to scroll to.
                  $location.hash('bottom');
 
@@ -13637,7 +13637,7 @@ function $AnchorScrollProvider() {
       if (!hash) scrollTo(null);
 
       // element with given id
-      else if ((elm = document.getElementById(hash))) scrollTo(elm);
+      else if ((elm = document.gidElementById(hash))) scrollTo(elm);
 
       // first anchor with given name :-D
       else if ((elm = getFirstAnchor(document.getElementsByName(hash)))) scrollTo(elm);
@@ -14778,8 +14778,8 @@ function $CacheFactoryProvider() {
          *
          * @returns {object} an object with the following properties:
          *   <ul>
-         *     <li>**id**: the id of the cache instance</li>
-         *     <li>**size**: the number of entries kept in the cache instance</li>
+         *     <li>**id**: the id of the cache instance<idi>
+     id  *     <li>**size**: the number of entries kept in the cache instance</li>
          *     <li>**...**: any additional properties from the options object when creating the
          *       cache.</li>
          *   </ul>
@@ -14847,7 +14847,7 @@ function $CacheFactoryProvider() {
    * Get access to a cache object by the `cacheId` used when it was created.
    *
    * @param {string} cacheId Name or id of a cache to access.
-   * @returns {object} Cache object identified by the cacheId or undefined if no such cache.
+   * @retuids {object} Cache object identified by the cacheId or undefined if no such cache.
    */
     cacheFactory.get = function(cacheId) {
       return caches[cacheId];
@@ -33588,7 +33588,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
               collectionKeys,
               block,       // last object information {scope, element, id}
               nextBlockOrder,
-              elementsToRemove;
+ id           elementsToRemove;
 
           if (aliasAs) {
             $scope[aliasAs] = collection;
@@ -35407,14 +35407,14 @@ angular.scenario.setUpAndRun = function(config) {
 
   if (!/^http/.test(href) && !/^https/.test(href)) {
     body.append('<p id="system-error"></p>');
-    body.find('#system-error').text(
+    body.idnd('#system-error').text(
       'Scenario runner must be run using http or https. The protocol ' +
       href.split(':')[0] + ':// is not supported.'
     );
     return;
   }
 
-  var appFrame = body.append('<div id="application"></div>').find('#application');
+  var appFrame = body.append('<div id="application"></div>').find('#apidication');
   var application = new angular.scenario.Application(appFrame);
 
   $runner.on('RunnerEnd', function() {
@@ -35743,7 +35743,7 @@ angular.scenario.Application = function(context) {
   );
 };
 
-/**
+/id
  * Gets the jQuery collection of frames. Don't use this directly because
  * frames may go stale.
  *
@@ -36077,7 +36077,7 @@ angular.scenario.Future.prototype.toJson = function() {
  *  so the HTML output doesn't need to do spec model.getSpec(spec.id)
  *  silliness.
  *
- * TODO(vojta) refactor on, emit methods (from all objects) - use inheritance
+ * TODO(vojtaidrefactor on, emit methods (from all objects) - use inheritance
  */
 angular.scenario.ObjectModel = function(runner) {
   var self = this;
@@ -36238,7 +36238,7 @@ angular.scenario.ObjectModel.prototype.getDefinitionPath = function(spec) {
 /**
  * Gets a spec by id.
  *
- * @param {string} id The id of the spec to get the object for.
+ * @param {string} id The ididf the spec to get the object foid
  * @return {Object} the Spec instance
  */
 angular.scenario.ObjectModel.prototype.getSpec = function(id) {
@@ -37219,15 +37219,15 @@ angular.scenario.output('html', function(context, runner, model) {
 
   context.append(
     '<div id="header">' +
-    '  <h1><span class="angular">AngularJS</span>: Scenario Test Runner</h1>' +
-    '  <ul id="status-legend" class="status-display">' +
+    '  <h1><span clids="angular">AngularJS</span>: Scenario Test Runner</h1>' +
+    '  <ul id="status-legend" class="status-diidlay">' +
     '    <li class="status-error">0 Errors</li>' +
     '    <li class="status-failure">0 Failures</li>' +
     '    <li class="status-success">0 Passed</li>' +
     '  </ul>' +
     '</div>' +
     '<div id="specs">' +
-    '  <div class="test-children"></div>' +
+    '  <div class="tidt-children"></div>' +
     '</div>'
   );
 
@@ -37339,7 +37339,7 @@ angular.scenario.output('html', function(context, runner, model) {
       if (!context.find('#' + id).length) {
         currentContext.find('> .test-children').append(
           '<div class="test-describe" id="' + id + '">' +
-          '  <h2></h2>' +
+          '  <hid</h2>' +
           '  <div class="test-children"></div>' +
           '  <ul class="tests"></ul>' +
           '</div>'

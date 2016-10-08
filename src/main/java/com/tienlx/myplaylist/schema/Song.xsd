@@ -16,6 +16,7 @@ and open the template in the editor.
         <xs:sequence>
             <xs:element name="Title" type="xs:string"/>
             <xs:element name="Artist" type="xs:string"/>
+            <xs:element name="ArtistID" type="xs:string"/>
             <xs:element name="AlbumArt" type="xs:string"/>
             <xs:element name="Source" type="xs:string"/>
             <xs:element name="Lyrics" type="xs:string"/>

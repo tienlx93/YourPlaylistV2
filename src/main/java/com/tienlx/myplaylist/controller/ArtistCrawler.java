@@ -45,7 +45,7 @@ public class ArtistCrawler extends HttpServlet {
         crawler.setBasePath(path);
         crawler.setBaseUrl(url);
 
-        //crawler.testSaveArtist();
+        //crawler.saveArtist();
         //crawler.processPage(url); //TESTED OK
         crawler.processArtistList();
     }

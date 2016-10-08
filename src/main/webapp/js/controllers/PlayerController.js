@@ -98,7 +98,7 @@ controllers.controller('PlayerController', ['$scope', '$rootScope', '$http', 'So
             if (multi > 0) {
                 shortArtist = shortArtist.substring(0, multi - 1);
             }
-            Api.getArtist(shortArtist.trim(), function (artist) {
+            Api.getArtist(bodau(shortArtist.trim()), function (artist) {
                 $scope.artist = artist;
             });
             Api.playCount(song.Id, function(){
@@ -121,8 +121,8 @@ controllers.controller('PlayerController', ['$scope', '$rootScope', '$http', 'So
             var path = BACK_END_URL + "song/" + $scope.currentSong.Id + ".xml";
             $http.get(path).success(function (data) {
                 $scope.song = data.Song;
-                var source = JSON.parse(data.Song.Source);
-                $scope.song.Source = source.data[0].source;
+                var source = data.Song.Source;
+                $scope.song.Source = source;
 //                $("#jquery_jplayer_1").jPlayer("stop");
                 $("#jquery_jplayer_1").jPlayer("setMedia", {
                     mp3: data.Song.Source
@@ -143,6 +143,24 @@ controllers.controller('PlayerController', ['$scope', '$rootScope', '$http', 'So
             $scope.currentSong.error = true;
             $scope.song = {'AlbumArt': 'img/musicstore.png'}
             //$scope.nextSong();
+        }
+        $scope.tab = 0;
+        $scope.artist = {};
+        $scope.selectTab = function (id) {
+            if (id == 1) {
+                //artist
+                /*if ($scope.artist.name == $scope.song.artist) {
+                    // Api.getArtistInfo($scope.song.artist, function (data) {
+                    //
+                    // });
+                    Api.getArtist($scope.song.artist, function (artist) {
+                        $scope.artist = artist;
+                    });
+                }*/
+                $scope.tab = id;
+            } else {
+                $scope.tab = id;
+            }
         }
     }]);
 

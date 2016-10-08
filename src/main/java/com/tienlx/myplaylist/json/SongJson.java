@@ -12,6 +12,16 @@ public class SongJson {
     private String id;
     private String title;
     private String artist;
+
+    public String getArtistID() {
+        return artistID;
+    }
+
+    public void setArtistID(String artistID) {
+        this.artistID = artistID;
+    }
+
+    private String artistID;
     private long playCount;
     private String category;
     private String artistFullName;
@@ -20,10 +30,11 @@ public class SongJson {
     public SongJson() {
     }
 
-    public SongJson(String id, String title, String artist, long playCount, String category, String artistFullName, String image) {
+    public SongJson(String id, String title, String artist, long playCount, String category, String artistFullName, String image, String artistID) {
         this.id = id;
         this.title = title;
         this.artist = artist;
+        this.artistID = artistID;
         this.playCount = playCount;
         this.category = category;
         this.artistFullName = artistFullName;

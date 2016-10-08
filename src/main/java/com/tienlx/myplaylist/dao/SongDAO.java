@@ -81,7 +81,7 @@ public class SongDAO extends BaseDAO<Song, String> {
                 String artistFullName = (String) row[5];
                 String image = (String) row[6];
 
-                song = new SongJson(id, title, artist, playCount.longValue(), category, artistFullName, image);
+                song = new SongJson(id, title, artist, playCount.longValue(), category, artistFullName, image, artist);
                 songListJson.add(song);
             }
         } catch (Exception e) {

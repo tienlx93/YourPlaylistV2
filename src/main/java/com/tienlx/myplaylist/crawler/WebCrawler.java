@@ -230,7 +230,7 @@ public class WebCrawler {
             ArtistDAO artistDao = new ArtistDAO();
             Artist found = artistDao.get(artistNameSearch);
             if (found == null) {
-                com.tienlx.myplaylist.entity.Artist artist = new Artist(artistNameSearch, artistName, image, bio, info);
+                com.tienlx.myplaylist.entity.Artist artist = new Artist(artistNameSearch, artistName, image, bio, info, artistNameSearch);
                 artistDao.save(artist);
             }
         } catch (Exception e) {

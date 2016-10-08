@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Song", propOrder = {
     "title",
     "artist",
+    "artistID",
     "albumArt",
     "source",
     "lyrics"
@@ -53,6 +54,8 @@ public class Song {
     protected String title;
     @XmlElement(name = "Artist", required = true)
     protected String artist;
+    @XmlElement(name = "ArtistID", required = true)
+    protected String artistID;
     @XmlElement(name = "AlbumArt", required = true)
     protected String albumArt;
     @XmlElement(name = "Source", required = true)
@@ -106,6 +109,30 @@ public class Song {
      */
     public void setArtist(String value) {
         this.artist = value;
+    }
+
+    /**
+     * Gets the value of the artistID property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getArtistID() {
+        return artistID;
+    }
+
+    /**
+     * Sets the value of the artistID property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setArtistID(String value) {
+        this.artistID = value;
     }
 
     /**

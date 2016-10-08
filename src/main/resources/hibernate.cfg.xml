@@ -3,12 +3,19 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!--Global-->
         <property name="hibernate.connection.datasource">java:comp/env/jdbc/MySQLDS</property>
+
+        <!--Local-->
+        <!--<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/yourplaylist</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>-->
+
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.connection.CharSet">utf8</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.useUnicode">true</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <mapping class="com.tienlx.myplaylist.entity.Playlist"/>
         <mapping class="com.tienlx.myplaylist.entity.Account"/>
         <mapping class="com.tienlx.myplaylist.entity.Artist"/>

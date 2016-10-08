@@ -7,7 +7,13 @@
             <div class="clear-float"></div>
         </div>
         <div>
-            <div class="lyrics-title">{{artist.name}}</div>
+            <div class="clearfix">
+                <div class="col-md-4">
+                    <img ng-src="{{artist.image}}" style="width: 100%; padding: 5px">
+                </div>
+                <div class="col-md-6 lyrics-title">{{artist.name}}</div>
+            </div>
+
             <div class="data" ng-bind-html="artist.info | to_trusted"></div>
             <div class="data bio" ng-bind-html="artist.bio | to_trusted" ng-class="{hide:hideBio}" ng-click="hideBio=!hideBio"></div>
         </div>
@@ -17,12 +23,26 @@
     <div class="lyrics-box">
         <div class="lyrics-header">
             <div class="title-box">
-                <div class="title">Lời bài hát</div>
+                <div class="title" ng-class="{'active' : tab == 0}" ng-click="selectTab(0)">Lời bài hát</div>
+                <div class="title" ng-class="{'active' : tab == 1}" ng-click="selectTab(1)">Ca sĩ</div>
             </div>
             <div class="clear-float"></div>
         </div>
-        <div class="lyrics-title">{{song.Title}}</div>
-        <div class="data" ng-bind-html="song.Lyrics | to_trusted"></div>
+        <div ng-show="tab==0">
+            <div class="lyrics-title">{{song.Title}}</div>
+            <div class="data" ng-bind-html="song.Lyrics | to_trusted"></div>
+        </div>
+        <div ng-show="tab==1">
+            <div class="lyrics-title">Ca sĩ {{artist.name}}</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img ng-src="{{artist.image}}" style="width: 100%; padding: 5px">
+                </div>
+                <div class="col-md-8">
+                    <div class="data" ng-bind-html="artist.bio | to_trusted"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

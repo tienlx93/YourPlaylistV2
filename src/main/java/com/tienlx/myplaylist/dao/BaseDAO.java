@@ -35,7 +35,7 @@ public class BaseDAO<E, I extends Serializable> {
             trans.begin();
             return session.createCriteria(type).list();
         } catch (Exception e) {
-            if (trans.isActive()) {
+            if (trans != null && trans.isActive()) {
                 trans.rollback();
             }
         }
@@ -52,7 +52,7 @@ public class BaseDAO<E, I extends Serializable> {
 
             return source;
         } catch (Exception e) {
-            if (trans.isActive()) {
+            if (trans != null && trans.isActive()) {
                 trans.rollback();
             }
         }
@@ -69,7 +69,7 @@ public class BaseDAO<E, I extends Serializable> {
 
             return true;
         } catch (Exception e) {
-            if (trans.isActive()) {
+            if (trans != null && trans.isActive()) {
                 trans.rollback();
             }
         }
@@ -86,7 +86,7 @@ public class BaseDAO<E, I extends Serializable> {
             trans.commit();
             return true;
         } catch (Exception e) {
-            if (trans.isActive()) {
+            if (trans != null && trans.isActive()) {
                 trans.rollback();
             }
             e.printStackTrace();
