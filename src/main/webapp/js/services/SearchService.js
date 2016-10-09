@@ -17,7 +17,7 @@ services.factory("SearchService", ['$http', '$location',
 
         services.requestFullSearch = function(text, callback){
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: BACK_END_URL + 'Search',
                 params: {
                     'query': bodau(text),
